@@ -101,21 +101,40 @@ adminSchema.methods.generateAuthToken = async function () {
  * @returns {Object} Admin
  */
 adminSchema.statics.findByCredentials = async (email, password) => {
+    console.log("\n=== Admin Login Attempt ===");
+    console.log("Email:", email);
+    
+    // Add debug logs for MongoDB connection
+    console.log("MongoDB Connection State:", mongoose.connection.readyState);
+    console.log("Database Name:", mongoose.connection.db.databaseName);
+    
+    // Log the query we're about to make
+    console.log("Finding admin with email:", email);
     const admin = await Admin.findOne({ email });
-
-    console.log({ admin })
+    console.log("Query result:", admin);
+    console.log("Admin found:", !!admin);
 
     if (!admin) {
-        throw new Error("Unable to login");
+        throw new Error("Email not found");
     }
 
+    console.log("\n=== Password Details ===");
+    console.log("Raw password:", password);
+    console.log("Password length:", password.length);
+    console.log("Password bytes:", Buffer.from(password).toString('hex'));
+    
+    console.log("\n=== Stored Hash Details ===");
+    console.log("Stored hash:", admin.password);
+    console.log("Hash length:", admin.password.length);
+    
     const isMatch = await bcrypt.compare(password, admin.password);
+    console.log("\n=== Comparison Result ===");
+    console.log("Password match:", isMatch);
 
     if (!isMatch) {
-        //
-        console.log("Invalid Password");
-        throw new Error("Unable to login");
+        throw new Error("Invalid password");
     }
+
     return admin;
 };
 

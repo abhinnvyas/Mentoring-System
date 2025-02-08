@@ -28,6 +28,10 @@ module.exports = {
     try {
       const { email, password } = req.body;
 
+      console.log("\n=== Admin Login Request ===");
+      console.log("Email:", email);
+      console.log("Password provided:", !!password);
+
       if (!email || !password) {
         // if email/pass does not exists
         return response.badrequest(
@@ -48,7 +52,17 @@ module.exports = {
       next();
     } catch (err) {
       console.log(err);
-      response.error(res);
+      
+      // More specific error handling
+      if (err.message === "Email not found") {
+        return response.unauthorize(res, "No admin account found with this email");
+      }
+      
+      if (err.message === "Invalid password") {
+        return response.unauthorize(res, "Incorrect password");
+      }
+
+      response.error(res, "An error occurred during login");
     }
   },
 
