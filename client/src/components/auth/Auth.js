@@ -183,8 +183,8 @@ const Auth = ({ location }) => {
         <img src={loginBg} alt="" className="w-1/2" />
       </div>
       <div className="flex-2 bg-gray-600 h-full flex items-center justify-center overflow-y-auto">
-        <div className="w-96">
-          <form className="" onSubmit={handleSubmit}>
+        <div className="w-96 max-h-screen py-8">
+          <form className="overflow-y-auto" onSubmit={handleSubmit}>
             {toggleLogin && (
               <div className="grid grid-cols-3 gap-2">
                 <div className="flex flex-col mb-6">
