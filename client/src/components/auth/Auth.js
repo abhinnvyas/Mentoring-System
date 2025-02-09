@@ -253,7 +253,7 @@ const Auth = ({ location }) => {
                   <select
                     id="semester"
                     name="semester"
-                    className="rounded-lg border-none"
+                    className="rounded-lg border-none px-3 py-2 w-full"
                     value={fields.semester}
                     onChange={handleChange}
                     required
